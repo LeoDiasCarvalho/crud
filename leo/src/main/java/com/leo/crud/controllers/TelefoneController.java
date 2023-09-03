@@ -3,17 +3,20 @@ package com.leo.crud.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.leo.crud.dto.TelefoneDTO;
 import com.leo.crud.entities.Telefone;
-import com.leo.crud.repositories.TelefoneRepository;
+import com.leo.crud.services.TelefoneService;
 
 @RestController
 @CrossOrigin
@@ -21,31 +24,39 @@ import com.leo.crud.repositories.TelefoneRepository;
 public class TelefoneController {
 	
 	@Autowired
-	private TelefoneRepository repo;
+	private TelefoneService service;
 	
 	@GetMapping
-	public List<TelefoneDTO> buscarTodosTelefones(){
-		List<Telefone> list = repo.findAll();
-		return list.stream().map(TelefoneDTO::new).toList(); 
+	public ResponseEntity<List<TelefoneDTO>> buscarTodosTelefones(){
+		List<TelefoneDTO> dto = (List<TelefoneDTO>) service.buscarTodosTelefones();
+		return ResponseEntity.status(200).body(dto);
+		
 	}
 	
 	@GetMapping(value = "/{id}")
-	public TelefoneDTO buscarTelefonePorId(@PathVariable Long id) {
-		Telefone tel = repo.findById(id).get();
-		return new TelefoneDTO(tel);
+	public ResponseEntity<TelefoneDTO> buscarTelefonePorId(@PathVariable Long id) {
+		TelefoneDTO dto = service.buscarTelefonePorId(id);
+		return ResponseEntity.status(200).body(dto);
 	}
 	
 	@PostMapping
-	public TelefoneDTO salvarTelefone(Telefone tel) {
-		Telefone novoTel = repo.save(tel);
-		return new TelefoneDTO(novoTel);
+	public ResponseEntity<TelefoneDTO> salvarTelefone(@RequestBody Telefone tel) {
+		Telefone obj = service.salvarTelefone(tel);
+		TelefoneDTO dto = new TelefoneDTO(obj);
+		return ResponseEntity.status(201).body(dto);
 	}
 	
-	@PutMapping(value = "/{id}")
-	public TelefoneDTO atualizarTelefone(@PathVariable Long id) {
-		Telefone tel = repo.findById(id).get();
-		Telefone novoTel = repo.save(tel);
-		return new TelefoneDTO(novoTel);
+	@PutMapping
+	public ResponseEntity<TelefoneDTO> atualizarTelefone(@RequestBody Telefone tel) {
+		Telefone obj = service.salvarTelefone(tel);
+		TelefoneDTO dto = new TelefoneDTO(obj);
+		return ResponseEntity.status(200).body(dto);
+	}
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<TelefoneDTO> excluirTelefone(@PathVariable Long id){
+		Telefone obj = service.excluirTelefone(id);
+		return ResponseEntity.status(204).body(new TelefoneDTO(obj));
 	}
 
 }

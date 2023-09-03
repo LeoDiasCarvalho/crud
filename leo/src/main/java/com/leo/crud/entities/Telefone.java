@@ -24,13 +24,14 @@ public class Telefone implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", unique = true, nullable = true)
+	@Column(name = "id", unique = true)
 	private Long id;
 	
-	@Column(name = "principal", nullable = true, length = 11)
+	@Column(name = "principal", length = 11)
 	private String principal;
 	
 	@Column(name = "recado", length = 11)
 	private String recado;
+	
 
 }
