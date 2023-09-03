@@ -1,0 +1,48 @@
+package com.leo.crud.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.leo.crud.dto.CidadeDTO;
+import com.leo.crud.entities.Cidade;
+import com.leo.crud.repositories.CidadeRepository;
+
+@Service
+public class CidadeService {
+	
+	@Autowired
+	private CidadeRepository repo;
+	
+	public List<CidadeDTO> buscarTodasCidades(){
+		List<Cidade> list = repo.findAll();
+		return list.stream().map(CidadeDTO::new).toList();
+	}
+	
+	public Cidade buscarCidadePorId(Long id) {
+			Cidade obj = repo.findById(id).get();
+			repo.delete(obj);
+			return obj;
+	}
+	
+	public Cidade salvarCidade(Cidade cidade) {
+		Cidade novaCidade = repo.save(cidade);
+		return novaCidade;	
+	}
+	
+	public Cidade atualizarCidade(Cidade cidade) {
+		Cidade novaCidade = repo.save(cidade);
+		return novaCidade;
+	}
+	
+	public Cidade ExcluirCidade(Long id) {
+		if(repo.existsById(id) == true) {
+			Cidade obj = repo.findById(id).get();
+			return obj;
+		}else {
+			return null;
+		}
+	}
+
+}

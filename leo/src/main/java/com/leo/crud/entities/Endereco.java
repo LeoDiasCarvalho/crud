@@ -24,13 +24,13 @@ public class Endereco {
 	@Column(name = "id", unique = true, nullable = true)
 	private Long id;
 	
-	@Column(name = "logradouro", length = 45)
+	@Column(name = "logradouro", length = 45, nullable = true)
 	private String logradouro;
 	
-	@Column(name = "bairro", length = 20)
+	@Column(name = "bairro", length = 20, nullable = true)
 	private String bairro;
 	
-	@Column(name = "cep", length = 10)
+	@Column(name = "cep", length = 10, nullable = true)
 	private String cep;
 
 	@Override

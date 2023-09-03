@@ -2,6 +2,7 @@ package com.leo.crud.services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.leo.crud.dto.CidadeDTO;
@@ -11,6 +12,7 @@ import com.leo.crud.repositories.CidadeRepository;
 @Service
 public class CidadeService {
 	
+	@Autowired
 	private CidadeRepository repo;
 	
 	public List<CidadeDTO> buscarTodasCidades(){
@@ -19,17 +21,14 @@ public class CidadeService {
 	}
 	
 	public CidadeDTO buscarCidadePorId(Long id) {
-		if(repo.existsById(id)== true) {
 			Cidade obj = repo.findById(id).get();
+			repo.delete(obj);
 			return new CidadeDTO(obj);
-		}else {
-			return null;
-		}
 	}
 	
 	public Cidade salvarCidade(Cidade cidade) {
 		Cidade novaCidade = repo.save(cidade);
-		return novaCidade;
+		return novaCidade;	
 	}
 	
 	public Cidade atualizarCidade(Cidade cidade) {
