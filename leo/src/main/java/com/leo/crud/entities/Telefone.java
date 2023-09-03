@@ -32,7 +32,5 @@ public class Telefone implements Serializable {
 	
 	@Column(name = "recado", length = 11)
 	private String recado;
-	
-	
 
 }

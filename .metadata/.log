@@ -177,3 +177,12 @@ java.lang.InterruptedException
 
 !ENTRY org.springframework.tooling.boot.ls 1 0 2023-09-03 08:29:07.670
 !MESSAGE Classpath changed for project: leo
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2023-09-03 08:31:18.284
+!MESSAGE Classpath changed for project: leo
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2023-09-03 08:31:54.286
+!MESSAGE Classpath changed for project: leo
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2023-09-03 08:33:24.947
+!MESSAGE Classpath changed for project: leo
