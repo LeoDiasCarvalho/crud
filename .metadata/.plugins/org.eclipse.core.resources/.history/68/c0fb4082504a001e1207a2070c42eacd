@@ -1,0 +1,29 @@
+package com.leo.crud.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.leo.crud.dto.TelefoneDTO;
+import com.leo.crud.entities.Telefone;
+import com.leo.crud.repositories.TelefoneRepository;
+
+@RestController
+@CrossOrigin
+@RequestMapping("/telefones")
+public class TelefoneController {
+	
+	@Autowired
+	private TelefoneRepository repo;
+	
+	@GetMapping
+	public List<TelefoneDTO> buscarTodosTelefones(){
+		List<Telefone> list = repo.findAll();
+		return list.stream().map(TelefoneDTO::new).toList(); 
+	}
+
+}
