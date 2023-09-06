@@ -9,7 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,20 +24,20 @@ public class Endereco {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", unique = true, nullable = true)
+	@Column(name = "id", unique = true)
 	private Long id;
 	
-	@Column(name = "logradouro", length = 45, nullable = true)
+	@Column(name = "logradouro", length = 45)
 	private String logradouro;
 	
-	@Column(name = "bairro", length = 20, nullable = true)
+	@Column(name = "bairro", length = 20)
 	private String bairro;
 	
-	@Column(name = "cep", length = 10, nullable = true)
+	@Column(name = "cep", length = 10)
 	private String cep;
 	
-	@OneToMany(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "Estado_id")
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "Cidade_id")
 	private Cidade cidade;
 
 	@Override

@@ -1,0 +1,59 @@
+package com.leo.crud.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.leo.crud.dto.EnderecoDTO;
+import com.leo.crud.entities.Endereco;
+import com.leo.crud.services.EnderecoService;
+
+@RestController
+@CrossOrigin
+@RequestMapping("/enderecos")
+public class EnderecoController {
+	
+	@Autowired
+	private EnderecoService service;
+	
+	@GetMapping
+	public ResponseEntity<?> buscarTodosEnderecos(){
+		List<EnderecoDTO> dto = service.buscarTodosEnderecos();
+		return ResponseEntity.status(200).body(dto);
+	}
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<?> buscarEnderecoPorId(@PathVariable Long id){
+		EnderecoDTO dto = service.buscarEnderecoPorId(id);
+		return ResponseEntity.status(200).body(dto);
+	}
+	
+	@PostMapping
+	public ResponseEntity<?> salvarEndereco(@RequestBody Endereco end){
+		Endereco novoEndereco = service.salvarEndereco(end);
+		return ResponseEntity.status(201).body(novoEndereco);
+	}
+	
+	@PutMapping
+	public ResponseEntity<?> AtualizarEndereco(@RequestBody Endereco end){
+		Endereco novoEndereco = service.salvarEndereco(end);
+		return ResponseEntity.status(201).body(novoEndereco);
+	}
+	
+	@DeleteMapping
+	public ResponseEntity<?> excluirEndereco(@PathVariable Long id){
+		Endereco obj = service.excluirEndereco(id);
+		return ResponseEntity.status(204).body(obj);
+	}
+
+}

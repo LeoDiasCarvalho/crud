@@ -48,7 +48,7 @@ public class TelefoneController {
 	
 	@PutMapping
 	public ResponseEntity<TelefoneDTO> atualizarTelefone(@RequestBody Telefone tel) {
-		Telefone obj = service.salvarTelefone(tel);
+		Telefone obj = service.atualizarTelefone(tel, tel.getId());
 		TelefoneDTO dto = new TelefoneDTO(obj);
 		return ResponseEntity.status(200).body(dto);
 	}

@@ -16,7 +16,9 @@ public class EnderecoDTO {
 	private String logradouro;
 	private String bairro;
 	private String cep;
+	
 	private Cidade cidade;
+	
 	
 	public EnderecoDTO(Endereco endereco) {
 		id = endereco.getId();

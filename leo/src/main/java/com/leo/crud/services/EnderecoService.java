@@ -2,17 +2,24 @@ package com.leo.crud.services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.leo.crud.dto.EnderecoDTO;
+import com.leo.crud.entities.Cidade;
 import com.leo.crud.entities.Endereco;
+import com.leo.crud.repositories.CidadeRepository;
 import com.leo.crud.repositories.EnderecoRepository;
 
 @Service
 public class EnderecoService {
 	
+	@Autowired
 	private EnderecoRepository repo;
+	
+	@Autowired
+	private CidadeRepository cidadeRepo;
 	
 	@Transactional(readOnly = true)
 	public List<EnderecoDTO> buscarTodosEnderecos(){
@@ -28,14 +35,21 @@ public class EnderecoService {
 	
 	@Transactional(readOnly = false)
 	public Endereco salvarEndereco(Endereco end) {
-			Endereco obj = repo.save(end);
-			return obj;	
+			return repo.save(end);	
 	}
 	
 	@Transactional(readOnly = false)
-	public Endereco atualizarEndereco(Endereco end) {
-			Endereco obj =  repo.save(end);
-			return obj;
+	public Endereco atualizarEndereco(Endereco end, Long id) {
+			return repo.findById(id).map(atualizar -> {
+				atualizar.setLogradouro(end.getLogradouro());
+				atualizar.setBairro(end.getBairro());
+				atualizar.setCep(end.getCep());
+				atualizar.setBairro(end.getBairro());		
+				Cidade cidade = cidadeRepo.findById(end.getCidade().getId()).get();
+				atualizar.setCidade(cidade);
+				Endereco novoEndereco = repo.save(atualizar);
+				return novoEndereco;
+			}).orElse(end);
 	}
 	
 	@Transactional(readOnly = false)

@@ -27,31 +27,34 @@ public class CidadeController {
 	private CidadeService service;
 	
 	@GetMapping
-	public ResponseEntity<?> buscarTodasCidades(){
+	public ResponseEntity<List<CidadeDTO>> buscarTodasCidades(){
 		List<CidadeDTO> list = service.buscarTodasCidades();
 		return ResponseEntity.status(200).body(list);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> buscarCidadePorId(@PathVariable Long id){
+	public ResponseEntity<CidadeDTO> buscarCidadePorId(@PathVariable Long id){
 		CidadeDTO dto = service.buscarCidadePorId(id);
 		return ResponseEntity.status(200).body(dto);
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> salvarCidade(@RequestBody Cidade cidade){
+	public ResponseEntity<CidadeDTO> salvarCidade(@RequestBody Cidade cidade){
 		Cidade obj = service.salvarCidade(cidade);
-		return ResponseEntity.status(201).body(obj);
+		CidadeDTO dto = new CidadeDTO(obj);
+		return ResponseEntity.status(201).body(dto);
 	}
 	
 	@PutMapping
-	public ResponseEntity<?> atualizarCidade(@RequestBody Cidade cidade){
-		Cidade obj = service.atualizarCidade(cidade);
-		return ResponseEntity.status(200).body(obj);
+	public ResponseEntity<CidadeDTO> atualizarCidade(@RequestBody Cidade cidade){
+		Cidade obj = service.atualizarCidade(cidade, cidade.getId());
+		CidadeDTO dto = new CidadeDTO(obj);
+		return ResponseEntity.status(200).body(dto);
 	}
+		
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> excluirCidade(@PathVariable Long id){
+	public ResponseEntity<CidadeDTO> excluirCidade(@PathVariable Long id){
 		Cidade obj = service.ExcluirCidade(id);
 		return ResponseEntity.status(204).body(new CidadeDTO(obj));
 	}

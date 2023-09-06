@@ -36,14 +36,19 @@ public class TelefoneService {
 	}
 	
 	@Transactional(readOnly = false)
-	public Telefone atualizarTelefone(Telefone tel) {
-			Telefone obj =  repo.save(tel);
-			return obj;
+	public Telefone atualizarTelefone(Telefone tel, Long id) {
+			return repo.findById(id).map(atualizar -> {
+				atualizar.setPrincipal(tel.getPrincipal());
+				atualizar.setRecado(tel.getRecado());
+				Telefone novoTel = repo.save(atualizar);
+				return novoTel;
+			}).orElse(tel);
+			
 	}
 	
 	@Transactional(readOnly = false)
 	public Telefone excluirTelefone(Long id) {
-		if(repo.existsById(id)) {
+		if(repo.existsById(id) == true) {
 			Telefone obj = repo.findById(id).get();
 			repo.delete(obj);
 			return obj;

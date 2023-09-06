@@ -1,0 +1,61 @@
+package com.leo.crud.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.leo.crud.dto.TelefoneDTO;
+import com.leo.crud.entities.Telefone;
+import com.leo.crud.repositories.TelefoneRepository;
+
+
+@Service
+public class TelefoneService {
+	
+	@Autowired
+	private TelefoneRepository repo;
+	
+	@Transactional(readOnly = true)
+	public List<TelefoneDTO> buscarTodosTelefones(){
+			List<Telefone> list = repo.findAll();
+			return list.stream().map(TelefoneDTO::new).toList();	
+	}
+	
+	@Transactional(readOnly = true)
+	public TelefoneDTO buscarTelefonePorId(Long id) {
+			Telefone obj = repo.findById(id).get();
+			return new TelefoneDTO(obj);
+	}
+	
+	@Transactional(readOnly = false)
+	public Telefone salvarTelefone(Telefone tel) {
+			Telefone obj = repo.save(tel);
+			return obj;	
+	}
+	
+	@Transactional(readOnly = false)
+	public Telefone atualizarTelefone(Telefone tel, Long id) {
+			return repo.findById(id).map(atualizar -> {
+				atualizar.setPrincipal(tel.getPrincipal());
+				atualizar.setRecado(tel.getRecado());
+				Telefone novoTel = repo.save(atualizar);
+				return novoTel;
+			}).orElse(tel);
+			
+	}
+	
+	@Transactional(readOnly = false)
+	public Telefone excluirTelefone(Long id) {
+		if(repo.existsById(id)) {
+			Telefone obj = repo.findById(id).get();
+			repo.delete(obj);
+			return obj;
+		}else {
+			return null;
+		}
+		
+	}
+
+}

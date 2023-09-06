@@ -1,0 +1,62 @@
+package com.leo.crud.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.leo.crud.dto.EnderecoDTO;
+import com.leo.crud.entities.Endereco;
+import com.leo.crud.services.EnderecoService;
+
+@RestController
+@CrossOrigin
+@RequestMapping("/enderecos")
+public class EnderecoController {
+	
+	@Autowired
+	private EnderecoService service;
+	
+	@GetMapping
+	public ResponseEntity<List<EnderecoDTO>> buscarTodosEndereco(){
+		List<EnderecoDTO> dto = (List<EnderecoDTO>) service.buscarTodosEnderecos();
+		return ResponseEntity.status(200).body(dto);
+		
+	}
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<EnderecoDTO> buscarEnderecoPorId(@PathVariable Long id) {
+		EnderecoDTO dto = service.buscarEnderecoPorId(id);
+		return ResponseEntity.status(200).body(dto);
+	}
+	
+	@PostMapping
+	public ResponseEntity<EnderecoDTO> salvarEndereco(@RequestBody Endereco end) {
+		Endereco obj = service.salvarEndereco(end);
+		EnderecoDTO dto = new EnderecoDTO(obj);
+		return ResponseEntity.status(201).body(dto);
+	}
+	
+	@PutMapping
+	public ResponseEntity<EnderecoDTO> atualizarEndereco(@RequestBody Endereco end) {
+		Endereco obj = service.atualizarEndereco(end, end.getId());
+		EnderecoDTO dto = new EnderecoDTO(obj);
+		return ResponseEntity.status(200).body(dto);
+	}
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<EnderecoDTO> excluirEndereco(@PathVariable Long id){
+		Endereco obj = service.excluirEndereco(id);
+		return ResponseEntity.status(204).body(new EnderecoDTO(obj));
+	}
+
+}

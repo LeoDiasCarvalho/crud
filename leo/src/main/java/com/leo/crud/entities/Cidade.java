@@ -1,16 +1,13 @@
 package com.leo.crud.entities;
 
-import java.util.List;
+import java.io.Serializable;
 import java.util.Objects;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,23 +18,26 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Cidade {
-	
+public class Cidade implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", unique = true, nullable = true)
+	@Column(name = "id", unique = true)
 	private Long id;
 	
-	@Column(name = "nome", length = 40, nullable = true)
+	@Column(name = "nome", length = 40)
 	private String nome;
 	
-	@Column(name = "estado", length = 20, nullable = true)
+	@Column(name = "estado", length = 20)
 	private String estado;
 	
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "Cidade_id")
-	private List<Endereco> endercos;
-	
+	/*
+	@OneToMany(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "Endereco_id")
+	@JsonIgnore
+	private List<Endereco> enderecos;
+	*/
 	
 	@Override
 	public boolean equals(Object obj) {

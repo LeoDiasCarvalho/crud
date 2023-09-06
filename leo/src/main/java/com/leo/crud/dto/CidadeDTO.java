@@ -14,7 +14,7 @@ public class CidadeDTO {
 	private long id;
 	private String nome;
 	private String estado;
-	
+
 	public CidadeDTO(Cidade cidade) {
 		id = cidade.getId();
 		nome = cidade.getNome();
