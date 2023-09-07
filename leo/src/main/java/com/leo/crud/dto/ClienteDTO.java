@@ -1,6 +1,6 @@
 package com.leo.crud.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.leo.crud.entities.Cliente;
 import com.leo.crud.entities.Endereco;
@@ -19,7 +19,7 @@ public class ClienteDTO {
 	private String nome;
 	private String cpf;
 	private String email;
-	private Date data_nascimento;
+	private LocalDate data_nascimento;
 	private String nome_mae;
 	private Integer numero_casa;
 	

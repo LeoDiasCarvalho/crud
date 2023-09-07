@@ -1,8 +1,9 @@
 package com.leo.crud.entities;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,10 +29,10 @@ public class Cliente implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", unique = true, nullable = true)
+	@Column(name = "id", unique = true)
 	private long id;
 	
-	@Column(name = "nome", nullable = true, length = 50)
+	@Column(name = "nome", length = 50)
 	private String nome;
 	
 	@Column(name = "cpf", unique = true, length = 20)
@@ -42,7 +43,7 @@ public class Cliente implements Serializable{
 	
 	@Column(name = "data_nascimento")
 	@Temporal(TemporalType.DATE)
-	private Date data_nascimento;
+	private LocalDate data_nascimento;
 	
 	@Column(name = "nome_mae", length = 50)
 	private String nome_mae;
@@ -50,11 +51,11 @@ public class Cliente implements Serializable{
 	@Column(name = "numero_casa")
 	private Integer numero_casa;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "Telefone_id")
 	private Telefone telefone;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "Endereco_id")
 	private Endereco endereco;
 

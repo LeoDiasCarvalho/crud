@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.leo.crud.dto.ClienteDTO;
 import com.leo.crud.entities.Cliente;
 import com.leo.crud.entities.Endereco;
 import com.leo.crud.entities.Telefone;
@@ -26,16 +27,18 @@ public class ClienteService {
 	private TelefoneRepository telRepo;
 	
 	@Transactional(readOnly = true)
-	public List<Cliente> buscarTodosClientes() {
-		return repo.findAll();
+	public List<ClienteDTO> buscarTodosClientes() {
+		List<Cliente> list = repo.findAll();
+		return list.stream().map(ClienteDTO::new).toList();
 	}
 	
 	@Transactional(readOnly = true)
-	public Cliente buscarClientePorId(Long id) {
-		return repo.findById(id).get();
+	public ClienteDTO buscarClientePorId(Long id) {
+		Cliente obj = repo.findById(id).get();
+		return new ClienteDTO(obj);
 	}
 	
-	@Transactional(readOnly = true)
+	@Transactional(readOnly = false)
 	public Cliente salvarCliente(Cliente cliente) {
 		return repo.save(cliente);
 	}
@@ -60,13 +63,14 @@ public class ClienteService {
 	
 	@Transactional(readOnly = false)
 	public Cliente excluirCliente(Long id) {
-		if(repo.existsById(id) == true) {
-			Cliente cliente = repo.findById(id).get();
-			repo.delete(cliente);
-			return cliente;
+		if(repo.existsById(id)) {
+			Cliente obj = repo.findById(id).get();
+			repo.delete(obj);
+			return obj;
 		}else {
 			return null;
 		}
+		
 	}
 
 }
