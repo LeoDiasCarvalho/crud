@@ -1,0 +1,66 @@
+package com.leo.crud.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.leo.crud.entities.Cliente;
+import com.leo.crud.entities.Endereco;
+import com.leo.crud.entities.Telefone;
+import com.leo.crud.repositories.ClienteRepository;
+import com.leo.crud.repositories.EnderecoRepository;
+import com.leo.crud.repositories.TelefoneRepository;
+
+@Service
+public class ClienteService {
+	
+	@Autowired
+	private ClienteRepository repo;
+	
+	@Autowired
+	private EnderecoRepository endRepo;
+	
+	@Autowired
+	private TelefoneRepository telRepo;
+	
+	public List<Cliente> buscarTodosClientes() {
+		return repo.findAll();
+	}
+	
+	public Cliente buscarClientePorId(Long id) {
+		return repo.findById(id).get();
+	}
+	
+	public Cliente salvarCliente(Cliente cliente) {
+		return repo.save(cliente);
+	}
+	
+	public Cliente atualizarCliente(Cliente cliente, long id) {
+		return repo.findById(id).map(atualizar -> {
+			atualizar.setNome(cliente.getNome());
+			atualizar.setCpf(cliente.getCpf());
+			atualizar.setEmail(cliente.getEmail());
+			atualizar.setNome_mae(cliente.getNome_mae());
+			atualizar.setData_nascimento(cliente.getData_nascimento());
+			atualizar.setNumero_casa(cliente.getNumero_casa());
+			Telefone tel = telRepo.findById(cliente.getTelefone().getId()).get();
+			atualizar.setTelefone(tel);
+			Endereco end = endRepo.findById(cliente.getEndereco().getId()).get();
+			atualizar.setEndereco(end);
+			Cliente novoCliente = repo.save(atualizar);
+			return novoCliente;
+		}).orElse(cliente);
+	}
+	
+	public Cliente excluirCliente(Long id) {
+		if(repo.existsById(id) == true) {
+			Cliente cliente = repo.findById(id).get();
+			repo.delete(cliente);
+			return cliente;
+		}else {
+			return null;
+		}
+	}
+
+}
