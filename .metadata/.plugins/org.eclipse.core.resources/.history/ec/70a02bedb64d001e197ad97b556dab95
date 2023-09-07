@@ -1,0 +1,5 @@
+package com.leo.crud.dto;
+
+public class ClienteDTO {
+
+}

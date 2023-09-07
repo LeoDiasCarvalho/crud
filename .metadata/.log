@@ -4500,3 +4500,15 @@ java.lang.IllegalArgumentException:
 
 !ENTRY org.springframework.tooling.boot.ls 1 0 2023-09-07 16:37:57.186
 !MESSAGE Classpath changed for project: leo
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2023-09-07 16:42:57.552
+!MESSAGE Classpath changed for project: leo
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2023-09-07 16:44:15.858
+!MESSAGE Classpath changed for project: leo
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2023-09-07 16:46:14.413
+!MESSAGE Classpath changed for project: leo
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2023-09-07 16:46:30.647
+!MESSAGE Classpath changed for project: leo
